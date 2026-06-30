@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications Database</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .pub-card { transition: all 0.2s ease; }
+        .pub-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        .stats-card { background: linear-gradient(145deg, #0f172a, #1e2937); }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+    <div class="max-w-screen-2xl mx-auto">
+        <!-- Header -->
+        <div class="px-8 pt-8 pb-6 border-b border-slate-800">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-x-4">
+                    <div class="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-book text-slate-950 text-3xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-semibold text-4xl tracking-tighter">Publications Database</h1>
+                        <p class="text-emerald-400">Scholars in DEI, Leadership, OB &amp; Latinx Research</p>
+                    </div>
+                </div>
+                <div class="text-right text-sm">
+                    <div class="text-slate-400">Data from Scopus • June 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="stats-card rounded-3xl p-5 flex items-center justify-between">
+                <div>
+                    <div class="text-emerald-400 text-xs tracking-widest font-medium">TOTAL PUBLICATIONS</div>
+                    <div class="text-4xl font-semibold mt-1" id="total-count">521</div>
+                </div>
+                <i class="fa-solid fa-book text-4xl opacity-20"></i>
+            </div>
+            <div class="stats-card rounded-3xl p-5 flex items-center justify-between">
+                <div>
+                    <div class="text-emerald-400 text-xs tracking-widest font-medium">JOURNAL ARTICLES</div>
+                    <div class="text-4xl font-semibold mt-1" id="journal-count">366</div>
+                </div>
+                <i class="fa-solid fa-newspaper text-4xl opacity-20"></i>
+            </div>
+            <div class="stats-card rounded-3xl p-5 flex items-center justify-between">
+                <div>
+                    <div class="text-emerald-400 text-xs tracking-widest font-medium">YEARS SPAN</div>
+                    <div class="text-4xl font-semibold mt-1">1992–2026</div>
+                </div>
+                <i class="fa-solid fa-calendar text-4xl opacity-20"></i>
+            </div>
+            <div class="stats-card rounded-3xl p-5 flex items-center justify-between">
+                <div>
+                    <div class="text-emerald-400 text-xs tracking-widest font-medium">SCHOLARS</div>
+                    <div class="text-4xl font-semibold mt-1">20</div>
+                </div>
+                <i class="fa-solid fa-user-graduate text-4xl opacity-20"></i>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="px-8 pb-6">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1 relative">
+                    <i class="fa-solid fa-search absolute left-5 top-4 text-slate-400"></i>
+                    <input type="text" id="search-input" 
+                           class="w-full bg-slate-900 border border-slate-700 rounded-2xl pl-12 pr-5 py-3.5 text-sm focus:outline-none focus:border-emerald-500"
+                           placeholder="Search titles, authors, or keywords...">
+                </div>
+
+                <!-- Author Filter -->
+                <select id="author-filter" class="bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-sm min-w-[220px]">
+                    <option value="">All Scholars (20)</option>
+                    <option value="Aguinis">Herman Aguinis</option>
+                    <option value="Blancero">Donna Maria Blancero</option>
+                    <option value="Ferdman">Bernardo M. Ferdman</option>
+                    <option value="Gomez">Carolina B. Gomez</option>
+                    <option value="Gonzalez">Jorge A. Gonzalez</option>
+                    <option value="Gavino">Monica C. Gavino</option>
+                    <option value="Ordóñez">Lisa D. Ordóñez</option>
+                    <option value="Lebrón">Mariana J. Lebrón</option>
+                    <option value="Beltran">Jose R. Beltran</option>
+                    <option value="Chicas">Herrison Chicas</option>
+                    <option value="Hoempler">Erik Hoempler</option>
+                    <option value="Mercado">Brittany Mercado</option>
+                    <option value="Domingo">Monique Domingo</option>
+                    <option value="Olivas">Miguel R. Olivas-Luján</option>
+                    <option value="Ponce">Rebecca Ponce de Leon</option>
+                    <option value="Zivic">Damian Zivic</option>
+                    <option value="Berry">Zachariah Berry</option>
+                    <option value="Figueroa">Alex Figueroa</option>
+                    <option value="Arteaga">Jorge Arteaga-Fonseca</option>
+                    <option value="Cervantez">Jose Cervantez</option>
+                </select>
+
+                <select id="type-filter" class="bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-sm min-w-[180px]">
+                    <option value="">All Types</option>
+                    <option value="Article">Journal Articles</option>
+                    <option value="Review">Reviews</option>
+                    <option value="Book chapter">Book Chapters</option>
+                    <option value="Editorial">Editorials</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="px-8 pb-12">
+            <div class="flex items-center justify-between mb-4 px-1">
+                <div class="text-sm text-slate-400">
+                    Showing <span id="results-count" class="font-semibold text-white">0</span> publications
+                </div>
+            </div>
+            <div id="publications-container" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <script>
+        let allPublications = [];
+
+        async function loadPublications() {
+            try {
+                const response = await fetch('publications.json');
+                allPublications = await response.json();
+
+                // Update stats
+                document.getElementById('total-count').textContent = allPublications.length;
+
+                const journalCount = allPublications.filter(p => 
+                    p.document_type && p.document_type.toLowerCase().includes('article')
+                ).length;
+                document.getElementById('journal-count').textContent = journalCount;
+
+                renderPublications(allPublications);
+            } catch (error) {
+                console.error('Error loading publications.json:', error);
+                document.getElementById('publications-container').innerHTML = 
+                    '<div class="text-center py-12 text-red-400">Could not load publications.json</div>';
+            }
+        }
+
+        function renderPublications(filtered) {
+            const container = document.getElementById('publications-container');
+            const countEl = document.getElementById('results-count');
+            container.innerHTML = '';
+            countEl.textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="text-center py-16 text-slate-400">No publications match your search.</div>';
+                return;
+            }
+
+            filtered.forEach(pub => {
+                const card = document.createElement('div');
+                card.className = 'pub-card bg-slate-900 border border-slate-700 rounded-3xl p-6';
+
+                const keywords = pub.author_keywords 
+                    ? pub.author_keywords.split(';').map(k => k.trim()).filter(Boolean) 
+                    : [];
+
+                let html = `
+                    <div>
+                        <h3 class="font-semibold text-lg leading-tight mb-2">${pub.title}</h3>
+                        <div class="text-sm text-slate-400 mb-1">
+                            ${pub.authors || 'Unknown authors'} 
+                            <span class="mx-2 text-slate-600">•</span> 
+                            <span class="font-medium text-emerald-400">${pub.year}</span>
+                        </div>
+                        <div class="text-sm text-slate-300 mb-4">${pub.venue || ''}</div>
+                        
+                        <div class="flex flex-wrap items-center gap-2">
+                            ${pub.document_type ? `
+                            <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400">
+                                ${pub.document_type}
+                            </span>` : ''}
+                            
+                            ${pub.doi ? `
+                            <a href="https://doi.org/${pub.doi}" target="_blank" 
+                               class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors">
+                                <i class="fa-solid fa-external-link-alt text-[10px]"></i>
+                                <span>DOI</span>
+                            </a>` : ''}
+                        </div>
+                    </div>
+                `;
+
+                if (keywords.length > 0) {
+                    html += `<div class="mt-4 flex flex-wrap gap-1.5">`;
+                    keywords.slice(0, 6).forEach(kw => {
+                        html += `<span class="px-3 py-1 bg-slate-800 text-slate-400 rounded-2xl text-xs">${kw}</span>`;
+                    });
+                    html += `</div>`;
+                }
+
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+        }
+
+        function filterPublications() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+            const authorFilter = document.getElementById('author-filter').value;
+            const typeFilter = document.getElementById('type-filter').value;
+
+            let filtered = allPublications;
+
+            if (searchTerm) {
+                filtered = filtered.filter(p => 
+                    (p.title && p.title.toLowerCase().includes(searchTerm)) ||
+                    (p.authors && p.authors.toLowerCase().includes(searchTerm)) ||
+                    (p.author_keywords && p.author_keywords.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            if (authorFilter) {
+                filtered = filtered.filter(p => {
+                    if (!p.authors) return false;
+                    const authorsLower = p.authors.toLowerCase();
+                    const filterLower = authorFilter.toLowerCase();
+                    
+                    // Check for last name match (most common in data)
+                    if (authorsLower.includes(filterLower)) return true;
+                    
+                    // Also try matching without comma (e.g. "Aguinis H")
+                    if (authorsLower.includes(filterLower.replace(',', ' '))) return true;
+                    
+                    return false;
+                });
+            }
+
+            if (typeFilter) {
+                filtered = filtered.filter(p => 
+                    p.document_type && p.document_type.toLowerCase().includes(typeFilter.toLowerCase())
+                );
+            }
+
+            renderPublications(filtered);
+        }
+
+        function init() {
+            loadPublications();
+            document.getElementById('search-input').addEventListener('input', filterPublications);
+            document.getElementById('author-filter').addEventListener('change', filterPublications);
+            document.getElementById('type-filter').addEventListener('change', filterPublications);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
